@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoutes = require("./src/routes/authRoutes");
 const connectDB = require("./src/config/db");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
+const projectRoutes = require("./src/routes/projectRoutes");
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
+app.use("/api/projects", projectRoutes);
 
 app.get("/", (req, res) => {
   res.send("DevSync API Running");
