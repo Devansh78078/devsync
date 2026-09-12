@@ -5,6 +5,7 @@ const authRoutes = require("./src/routes/authRoutes");
 const connectDB = require("./src/config/db");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
 const projectRoutes = require("./src/routes/projectRoutes");
+const taskRoutes = require("./src/routes/taskRoutes");
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/workspaces", workspaceRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/tasks", taskRoutes);
 
 app.get("/", (req, res) => {
   res.send("DevSync API Running");

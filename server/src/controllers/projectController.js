@@ -24,6 +24,21 @@ const createProject = async (req, res) => {
   }
 };
 
+const getProjectsByWorkspace = async (req, res) => {
+  try {
+    const projects = await Project.find({
+      workspace: req.params.workspaceId,
+    });
+
+    res.json(projects);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createProject,
+  getProjectsByWorkspace,
 };
