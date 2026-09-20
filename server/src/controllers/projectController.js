@@ -38,7 +38,44 @@ const getProjectsByWorkspace = async (req, res) => {
   }
 };
 
+const updateProject = async (req, res) => {
+  try {
+    const { title } = req.body;
+
+    const project = await Project.findByIdAndUpdate(
+      req.params.projectId,
+      { title },
+      { new: true }
+    );
+
+    res.json(project);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const deleteProject = async (req, res) => {
+  try {
+    const project = await Project.findByIdAndDelete(
+      req.params.projectId
+    );
+
+    res.json({
+      message: "Project deleted successfully",
+      project,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createProject,
   getProjectsByWorkspace,
+  updateProject,
+  deleteProject,
 };

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function ProjectSection({
   selectedWorkspace,
   projectTitle,
@@ -6,7 +8,15 @@ function ProjectSection({
   projects,
   setSelectedProject,
   fetchTasks,
+  updateProject,
+  deleteProject,
 }) {
+  const [editingProjectId, setEditingProjectId] =
+    useState(null);
+
+  const [editedTitle, setEditedTitle] =
+    useState("");
+
   return (
     <div>
       <h2 className="mb-2 text-xl font-bold">
@@ -40,15 +50,82 @@ function ProjectSection({
         {projects.map((project) => (
           <div
             key={project._id}
-            onClick={() => {
-              setSelectedProject(project);
-              fetchTasks(project._id);
-            }}
-            className="cursor-pointer rounded border border-gray-200 p-3 transition hover:bg-gray-100"
+            className="rounded border border-gray-200 p-3"
           >
-            <h3 className="font-medium">
-              {project.title}
-            </h3>
+            <div className="flex items-center justify-between">
+              <div
+                onClick={() => {
+                  setSelectedProject(project);
+                  fetchTasks(project._id);
+                }}
+                className="flex-1 cursor-pointer"
+              >
+                {editingProjectId === project._id ? (
+                  <input
+                    type="text"
+                    value={editedTitle}
+                    onChange={(e) => {
+                      setEditedTitle(
+                        e.target.value
+                      );
+                    }}
+                    className="rounded border border-gray-300 px-2 py-1"
+                  />
+                ) : (
+                  <h3 className="font-medium">
+                    {project.title}
+                  </h3>
+                )}
+              </div>
+
+              <div className="flex gap-2">
+                {editingProjectId ===
+                project._id ? (
+                  <button
+                    onClick={() => {
+                      updateProject(
+                        project._id,
+                        editedTitle
+                      );
+
+                      setEditingProjectId(
+                        null
+                      );
+                      setEditedTitle("");
+                    }}
+                    className="rounded bg-blue-600 px-3 py-1 text-white hover:bg-blue-700"
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setEditingProjectId(
+                        project._id
+                      );
+
+                      setEditedTitle(
+                        project.title
+                      );
+                    }}
+                    className="rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
+                  >
+                    Edit
+                  </button>
+                )}
+
+                <button
+                  onClick={() => {
+                    deleteProject(
+                      project._id
+                    );
+                  }}
+                  className="rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
