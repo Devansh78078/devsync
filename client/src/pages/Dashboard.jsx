@@ -149,52 +149,67 @@ function Dashboard() {
       console.log(error);
     }
   };
-  const logout = () => {
-  localStorage.removeItem("token");
 
-  window.location.href = "/login";
-};
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-3xl font-bold">
+          DevSync Dashboard
+        </h1>
 
-      <button onClick={logout}>
-      Logout
-      </button>
+        <button
+          onClick={logout}
+          className="rounded bg-red-500 px-4 py-2 text-white"
+        >
+          Logout
+        </button>
+      </div>
 
-      <WorkspaceSection
-        workspaceName={workspaceName}
-        setWorkspaceName={setWorkspaceName}
-        createWorkspace={createWorkspace}
-        workspaces={workspaces}
-        setSelectedWorkspace={setSelectedWorkspace}
-        fetchProjects={fetchProjects}
-      />
+      <div className="grid grid-cols-3 gap-6">
+        <div className="rounded-lg bg-white p-4 shadow">
+          <WorkspaceSection
+            workspaceName={workspaceName}
+            setWorkspaceName={setWorkspaceName}
+            createWorkspace={createWorkspace}
+            workspaces={workspaces}
+            setSelectedWorkspace={setSelectedWorkspace}
+            fetchProjects={fetchProjects}
+          />
+        </div>
 
-      {selectedWorkspace && (
-        <ProjectSection
-          selectedWorkspace={selectedWorkspace}
-          projectTitle={projectTitle}
-          setProjectTitle={setProjectTitle}
-          createProject={createProject}
-          projects={projects}
-          setSelectedProject={setSelectedProject}
-          fetchTasks={fetchTasks}
-        />
-      )}
+        <div className="rounded-lg bg-white p-4 shadow">
+          {selectedWorkspace && (
+            <ProjectSection
+              selectedWorkspace={selectedWorkspace}
+              projectTitle={projectTitle}
+              setProjectTitle={setProjectTitle}
+              createProject={createProject}
+              projects={projects}
+              setSelectedProject={setSelectedProject}
+              fetchTasks={fetchTasks}
+            />
+          )}
+        </div>
 
-      {selectedProject && (
-        <TaskSection
-          selectedProject={selectedProject}
-          taskTitle={taskTitle}
-          setTaskTitle={setTaskTitle}
-          createTask={createTask}
-          tasks={tasks}
-          updateTaskStatus={updateTaskStatus}
-          deleteTask={deleteTask}
-        />
-      )}
+        <div className="rounded-lg bg-white p-4 shadow">
+          {selectedProject && (
+            <TaskSection
+              selectedProject={selectedProject}
+              taskTitle={taskTitle}
+              setTaskTitle={setTaskTitle}
+              createTask={createTask}
+              tasks={tasks}
+              updateTaskStatus={updateTaskStatus}
+              deleteTask={deleteTask}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }

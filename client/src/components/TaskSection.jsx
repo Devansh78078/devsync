@@ -9,11 +9,15 @@ function TaskSection({
 }) {
   return (
     <div>
-      <h3>
-        Selected Project: {selectedProject.title}
-      </h3>
+      <h2 className="mb-2 text-xl font-bold">
+        Tasks
+      </h2>
 
-      <div>
+      <p className="mb-4 text-sm text-gray-500">
+        Project: {selectedProject.title}
+      </p>
+
+      <div className="mb-4 flex gap-2">
         <input
           type="text"
           placeholder="Task Title"
@@ -21,52 +25,70 @@ function TaskSection({
           onChange={(e) => {
             setTaskTitle(e.target.value);
           }}
+          className="flex-1 rounded border border-gray-300 px-3 py-2 outline-none focus:border-purple-500"
         />
 
-        <button onClick={createTask}>
-          Create Task
+        <button
+          onClick={createTask}
+          className="rounded bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
+        >
+          Create
         </button>
       </div>
 
-      <h4>Tasks</h4>
-
-      {tasks.map((task) => (
-        <div key={task._id}>
-          <p>
-            {task.title} - {task.status}
-          </p>
-
-          <button
-            onClick={() => {
-              updateTaskStatus(
-                task._id,
-                "IN_PROGRESS"
-              );
-            }}
+      <div className="space-y-3">
+        {tasks.map((task) => (
+          <div
+            key={task._id}
+            className="rounded border border-gray-200 p-3"
           >
-            Start
-          </button>
+            <div className="mb-2 flex items-center justify-between">
+              <h3 className="font-medium">
+                {task.title}
+              </h3>
 
-          <button
-            onClick={() => {
-              updateTaskStatus(
-                task._id,
-                "DONE"
-              );
-            }}
-          >
-            Complete
-          </button>
+              <span className="text-sm text-gray-500">
+                {task.status}
+              </span>
+            </div>
 
-          <button
-            onClick={() => {
-              deleteTask(task._id);
-            }}
-          >
-            Delete
-          </button>
-        </div>
-      ))}
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  updateTaskStatus(
+                    task._id,
+                    "IN_PROGRESS"
+                  );
+                }}
+                className="rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600"
+              >
+                Start
+              </button>
+
+              <button
+                onClick={() => {
+                  updateTaskStatus(
+                    task._id,
+                    "DONE"
+                  );
+                }}
+                className="rounded bg-green-600 px-3 py-1 text-white hover:bg-green-700"
+              >
+                Complete
+              </button>
+
+              <button
+                onClick={() => {
+                  deleteTask(task._id);
+                }}
+                className="rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

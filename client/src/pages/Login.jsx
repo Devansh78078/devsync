@@ -33,7 +33,9 @@ navigate("/dashboard");
 };
   return (
     <div>
-      <h1>Login</h1>
+      <h1 className="text-4xl font-bold">
+  Login
+</h1>
 
       <input
         type="email"
