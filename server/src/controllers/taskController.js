@@ -57,6 +57,25 @@ const updateTaskStatus = async (req, res) => {
     });
   }
 };
+
+const updateTask = async (req, res) => {
+  try {
+    const { title } = req.body;
+
+    const task = await Task.findByIdAndUpdate(
+      req.params.taskId,
+      { title },
+      { new: true }
+    );
+
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 const deleteTask = async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(
@@ -78,5 +97,6 @@ module.exports = {
   createTask,
   getTasksByProject,
   updateTaskStatus,
+  updateTask,
   deleteTask,
 };

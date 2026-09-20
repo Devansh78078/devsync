@@ -9,6 +9,7 @@ const {
   getTasksByProject,
   updateTaskStatus,
   deleteTask,
+  updateTask,
 } = require("../controllers/taskController");
 
 router.post("/", protect, createTask);
@@ -25,9 +26,16 @@ router.patch(
   updateTaskStatus
 );
 
+router.patch(
+  "/:taskId",
+  protect,
+  updateTask
+);
+
 router.delete(
   "/:taskId",
   protect,
   deleteTask
 );
+
 module.exports = router;

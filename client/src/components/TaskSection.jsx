@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function TaskSection({
   selectedProject,
   taskTitle,
@@ -6,7 +8,14 @@ function TaskSection({
   tasks,
   updateTaskStatus,
   deleteTask,
+  updateTask,
 }) {
+  const [editingTaskId, setEditingTaskId] =
+    useState(null);
+
+  const [editedTitle, setEditedTitle] =
+    useState("");
+
   return (
     <div>
       <h2 className="mb-2 text-xl font-bold">
@@ -43,9 +52,22 @@ function TaskSection({
             className="rounded border border-gray-200 p-3"
           >
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="font-medium">
-                {task.title}
-              </h3>
+              {editingTaskId === task._id ? (
+                <input
+                  type="text"
+                  value={editedTitle}
+                  onChange={(e) => {
+                    setEditedTitle(
+                      e.target.value
+                    );
+                  }}
+                  className="rounded border border-gray-300 px-2 py-1"
+                />
+              ) : (
+                <h3 className="font-medium">
+                  {task.title}
+                </h3>
+              )}
 
               <span className="text-sm text-gray-500">
                 {task.status}
@@ -76,6 +98,40 @@ function TaskSection({
               >
                 Complete
               </button>
+
+              {editingTaskId === task._id ? (
+                <button
+                  onClick={() => {
+                    updateTask(
+                      task._id,
+                      editedTitle
+                    );
+
+                    setEditingTaskId(
+                      null
+                    );
+                    setEditedTitle("");
+                  }}
+                  className="rounded bg-blue-600 px-3 py-1 text-white hover:bg-blue-700"
+                >
+                  Save
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setEditingTaskId(
+                      task._id
+                    );
+
+                    setEditedTitle(
+                      task.title
+                    );
+                  }}
+                  className="rounded bg-blue-500 px-3 py-1 text-white hover:bg-blue-600"
+                >
+                  Edit
+                </button>
+              )}
 
               <button
                 onClick={() => {

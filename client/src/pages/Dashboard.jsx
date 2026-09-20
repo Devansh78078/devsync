@@ -149,12 +149,36 @@ function Dashboard() {
       console.log(error);
     }
   };
+   const updateTask = async (
+  taskId,
+  title
+) => {
+  try {
+    const response = await api.patch(
+      `/tasks/${taskId}`,
+      {
+        title,
+      }
+    );
+
+    setTasks(
+      tasks.map((task) =>
+        task._id === taskId
+          ? response.data
+          : task
+      )
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
   const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/login";
   };
-
+ 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="mb-6 flex items-center justify-between">
@@ -198,16 +222,17 @@ function Dashboard() {
 
         <div className="rounded-lg bg-white p-4 shadow">
           {selectedProject && (
-            <TaskSection
-              selectedProject={selectedProject}
-              taskTitle={taskTitle}
-              setTaskTitle={setTaskTitle}
-              createTask={createTask}
-              tasks={tasks}
-              updateTaskStatus={updateTaskStatus}
-              deleteTask={deleteTask}
-            />
-          )}
+  <TaskSection
+    selectedProject={selectedProject}
+    taskTitle={taskTitle}
+    setTaskTitle={setTaskTitle}
+    createTask={createTask}
+    tasks={tasks}
+    updateTaskStatus={updateTaskStatus}
+    deleteTask={deleteTask}
+    updateTask={updateTask}
+  />
+)}
         </div>
       </div>
     </div>
