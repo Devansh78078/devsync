@@ -4,6 +4,12 @@ function TaskSection({
   selectedProject,
   taskTitle,
   setTaskTitle,
+  taskDescription,
+  setTaskDescription,
+  taskPriority,
+  setTaskPriority,
+  taskDueDate,
+  setTaskDueDate,
   createTask,
   tasks,
   updateTaskStatus,
@@ -26,7 +32,7 @@ function TaskSection({
         Project: {selectedProject.title}
       </p>
 
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 space-y-2">
         <input
           type="text"
           placeholder="Task Title"
@@ -34,14 +40,58 @@ function TaskSection({
           onChange={(e) => {
             setTaskTitle(e.target.value);
           }}
-          className="flex-1 rounded border border-gray-300 px-3 py-2 outline-none focus:border-purple-500"
+          className="w-full rounded border border-gray-300 px-3 py-2 outline-none focus:border-purple-500"
+        />
+
+        <textarea
+          placeholder="Task Description"
+          value={taskDescription}
+          onChange={(e) => {
+            setTaskDescription(
+              e.target.value
+            );
+          }}
+          className="w-full rounded border border-gray-300 px-3 py-2 outline-none focus:border-purple-500"
+        />
+
+        <select
+          value={taskPriority}
+          onChange={(e) => {
+            setTaskPriority(
+              e.target.value
+            );
+          }}
+          className="w-full rounded border border-gray-300 px-3 py-2"
+        >
+          <option value="LOW">
+            LOW
+          </option>
+
+          <option value="MEDIUM">
+            MEDIUM
+          </option>
+
+          <option value="HIGH">
+            HIGH
+          </option>
+        </select>
+
+        <input
+          type="date"
+          value={taskDueDate}
+          onChange={(e) => {
+            setTaskDueDate(
+              e.target.value
+            );
+          }}
+          className="w-full rounded border border-gray-300 px-3 py-2"
         />
 
         <button
           onClick={createTask}
           className="rounded bg-purple-600 px-4 py-2 text-white hover:bg-purple-700"
         >
-          Create
+          Create Task
         </button>
       </div>
 
@@ -52,7 +102,8 @@ function TaskSection({
             className="rounded border border-gray-200 p-3"
           >
             <div className="mb-2 flex items-center justify-between">
-              {editingTaskId === task._id ? (
+              {editingTaskId ===
+              task._id ? (
                 <input
                   type="text"
                   value={editedTitle}
@@ -74,7 +125,29 @@ function TaskSection({
               </span>
             </div>
 
-            <div className="flex gap-2">
+            {task.description && (
+              <p className="mb-2 text-sm text-gray-600">
+                {task.description}
+              </p>
+            )}
+
+            <div className="mb-3 flex flex-col gap-1 text-sm">
+              <span>
+                Priority:{" "}
+                {task.priority}
+              </span>
+
+              {task.dueDate && (
+                <span>
+                  Due:{" "}
+                  {new Date(
+                    task.dueDate
+                  ).toLocaleDateString()}
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => {
                   updateTaskStatus(
@@ -99,7 +172,8 @@ function TaskSection({
                 Complete
               </button>
 
-              {editingTaskId === task._id ? (
+              {editingTaskId ===
+              task._id ? (
                 <button
                   onClick={() => {
                     updateTask(
@@ -110,6 +184,7 @@ function TaskSection({
                     setEditingTaskId(
                       null
                     );
+
                     setEditedTitle("");
                   }}
                   className="rounded bg-blue-600 px-3 py-1 text-white hover:bg-blue-700"
